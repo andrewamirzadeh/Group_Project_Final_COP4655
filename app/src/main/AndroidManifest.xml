@@ -19,8 +19,9 @@
         android:theme="@style/Theme.GetUserLocation"
         tools:targetApi="31">
         <activity
-            android:name=".Database" android:parentActivityName=".MainActivity"
-             />
+            android:name=".Database" android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivityResults" android:parentActivityName=".MainActivityResults" />
 
         <activity
             android:name=".MainActivity"
@@ -30,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

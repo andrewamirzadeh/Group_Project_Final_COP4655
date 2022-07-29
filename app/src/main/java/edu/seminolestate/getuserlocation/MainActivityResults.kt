@@ -14,7 +14,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivityResults : AppCompatActivity() {
 
     lateinit var txt: TextView
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -30,28 +30,15 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("Range")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        button_database.setOnClickListener {
-            val intent = Intent(this, Database::class.java)
-            startActivity(intent)
-        }
+        setContentView(R.layout.results_activity_main)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        txt = findViewById(R.id.distance_textVew)
-        radioGroup = findViewById(R.id.radioGroup)
-
-
-        findViewById<Button>(R.id.btn_calculate_distance).setOnClickListener{
-            fetchLocation()
-        }
-
-        findViewById<Button>(R.id.btn_information).setOnClickListener{
-            fetchLocation()
-            val intent = Intent(this, MainActivityResults::class.java)
+        findViewById<Button>(R.id.btn_return).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
 
     }
 
@@ -60,36 +47,32 @@ class MainActivity : AppCompatActivity() {
         var radioGroupID = radioGroup.checkedRadioButtonId
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-
             != PackageManager.PERMISSION_GRANTED && ActivityCompat
                 .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-
         ){
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
             return
         }
         task.addOnSuccessListener {
-
             if (it != null && radioGroupID == R.id.rb_option_Mount_Everest) {
+
                 val mountEverestDistance = haversine(
                     it.latitude,
                     it.longitude,
                     mountEverestLat,
                     mountEverestLong
                 ) / 1.609344
-
                 txt.setText(
                     String.format(
                         "You are %.2f miles away from Mount Everest",
                         mountEverestDistance
-
                     )
-
                 )
                 //txt.setText("${it.latitude} ${it.longitude}")
                 //Toast.makeText(applicationContext, "${mountEverestDistance}", Toast.LENGTH_SHORT).show()
             }
             if (it != null && radioGroupID == R.id.rb_option_Taj_Mahal) {
+
                 val tajMahalDistance =
                     haversine(it.latitude, it.longitude, tajMahalLat, tajMahalLong) / 1.609344
                 txt.setText(
